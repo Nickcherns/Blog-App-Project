@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<!-- We want to add support for thymeleaf which creates
+		new HTML tags and properties -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Blog Site</title>
+	<th:block th:replace="/fragments/bootstrap::head"></th:block>
+</head>
+<body>
+
+	<div th:replace="/fragments/navbar"></div>
+
+	<div class="container">
+		<h1>Welcome to our Blog Post Site!</h1>
+		<h3>Check out our blogs!</h3>
+		<div class="row">
+			<!--  we want to write a section HTML code that repeats over and over again  
+				    	with different parameters, each time the HTML chunk is written, we want  
+				  		want information from a different blog post 
+				 	we can accomplish this by using a construct in Thymeleaf that is kind of a for loop called
+						th:each. If you add a th:each property to an HTML tag, it is repeated over and over again -->
+			<div th:each="blog:${posts}">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${blog.title}"></h5>
+							<div class="card-text">
+								<p th:text="${blog.author}">
+								<p th:text="${blog.blogEntry}">
+							</div>
+							<a th:href="@{/blogposts/{id} (id=${blog.id})}">
+								<button class="btn btn-primary">Edit Post</button>
+							</a> 
+							<a th:href='@{/blogposts/delete/{id} (id=${blog.id})}'
+									onclick='return confirm("Are you sure you want to delete this Blog Post?")'>
+								<button type="button" class="btn btn-danger" id='deleteBtn'>
+									Delete Post</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a th:href="@{/blogposts/new}">
+			<button class="btn btn-primary">Submit a New Blog Post</button>
+		</a>
+	</div>
+	<th:block th:replace="/fragments/bootstrap::end"></th:block>
+</body>
+</html>
